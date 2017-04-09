@@ -198,7 +198,6 @@ public class Documents {
 			/*for (KeyOfMap a : dCount.keySet()) {
 				System.out.println(a.first() + ":" + a.last() + "=" + dCount.get(a));
 			}
-			System.out.println("*************************************************");*/
 			
 			int flag = 0;
 
