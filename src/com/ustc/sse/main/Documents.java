@@ -106,25 +106,25 @@ public class Documents {
 	 */
 	public void seekCombinationsAndCountM() {// 求X中每个一维向量中元素的组合情况
 
-		for(int i=0;i<T.size();i++){
+		for (int i = 0; i < T.size(); i++) {
 			for (int j = i + 1; j < T.size(); j++) {
 				ArrayList<Integer> tempCiCj = new ArrayList<Integer>();
 				tempCiCj.add(T.get(i));
 				tempCiCj.add(T.get(j));
 				int count = countIncludeNumber(tempCiCj);
-				
-				//构建dCount的key
+
+				// 构建dCount的key
 				ArrayList<Integer> tempArrayList = new ArrayList<Integer>();
 				tempArrayList.add(tempCiCj.get(0));
 				ArrayList<Integer> tempArrayList1 = new ArrayList<Integer>();
 				tempArrayList1.add(tempCiCj.get(1));
 				KeyOfMap tempTreeSet = new KeyOfMap(tempArrayList, tempArrayList1);
-				
-				//往M映射中加入元素
+
+				// 往M映射中加入元素
 				dCount.put(tempTreeSet, count);
 			}
 		}
-		
+
 	}
 
 	/**
@@ -180,118 +180,120 @@ public class Documents {
 					ArrayList<Integer> Ci, Cj;
 					Ci = C.get(i);
 					Cj = C.get(j);
-					//System.out.println(Ci+" "+Cj);
+					// System.out.println(Ci+" "+Cj);
 
 					KeyOfMap tempM = new KeyOfMap(Ci, Cj);
-					if(dCount.get(tempM)!=null){
+					if (dCount.get(tempM) != null) {
 						int M = dCount.get(tempM);
 						// System.out.println(M);
-	
+
 						double f = M / m;
 						if ((float) (M / m) >= alpha) {
 							F.put(tempM, f);
 						}
 					}
-					
+
 				}
 			}
 
-			/*for (KeyOfMap a : dCount.keySet()) {
-				System.out.println(a.first() + ":" + a.last() + "=" + dCount.get(a));
-			}
-			*/
-			
+			/*
+			 * for (KeyOfMap a : dCount.keySet()) { System.out.println(a.first()
+			 * + ":" + a.last() + "=" + dCount.get(a)); }
+			 */
+
 			int flag = 0;
 
-			//while (!F.isEmpty()) {
+			// while (!F.isEmpty()) {
 
-				// 取出F中的最大value对应的key。思想：先获取value数组进行排序，之后取出最大的值一个key即可
-				Collection<Double> c = F.values();
-				Object[] obj = c.toArray();
-				
-				double maxFValue = 0;
-				//maxFValue = seekMaxValue(obj);
-				
-				Arrays.sort(obj);
-				maxFValue = (double)obj[obj.length-1];
-				
-				/*System.out.println(F.size());
-				
-				for(Map.Entry<KeyOfMap, Double> entry : F.entrySet()){  
-				    System.out.println(entry.getKey().first()+":"+entry.getKey().last()+"="+entry.getValue());  
-				}  */
-				
-				// 根据最大value获取对应的key
-				ArrayList<Integer> templist1 = new ArrayList<Integer>();
-				ArrayList<Integer> templist2 = new ArrayList<Integer>();
-				KeyOfMap key = new KeyOfMap(templist1, templist1);
-				//Set<KeyOfMap> kset = F.keySet();
-				/*for (KeyOfMap ks : kset) {
-					if (((Double) maxFValue).equals(F.get(ks))) {
-						key = ks;
-						break;
-					}
-				}*/
-				for(Map.Entry<KeyOfMap, Double> entry : F.entrySet()){ 
-					if (((Double) maxFValue).equals(entry.getValue())) {
-						key = entry.getKey();
-						break;
-					}
+			// 取出F中的最大value对应的key。思想：先获取value数组进行排序，之后取出最大的值一个key即可
+			Collection<Double> c = F.values();
+			Object[] obj = c.toArray();
+
+			double maxFValue = 0;
+			// maxFValue = seekMaxValue(obj);
+
+			Arrays.sort(obj);
+			maxFValue = (double) obj[obj.length - 1];
+
+			/*
+			 * System.out.println(F.size());
+			 * 
+			 * for(Map.Entry<KeyOfMap, Double> entry : F.entrySet()){
+			 * System.out.println(entry.getKey().first()+":"+entry.getKey().last
+			 * ()+"="+entry.getValue()); }
+			 */
+
+			// 根据最大value获取对应的key
+			ArrayList<Integer> templist1 = new ArrayList<Integer>();
+			ArrayList<Integer> templist2 = new ArrayList<Integer>();
+			KeyOfMap key = new KeyOfMap(templist1, templist1);
+			// Set<KeyOfMap> kset = F.keySet();
+			/*
+			 * for (KeyOfMap ks : kset) { if (((Double)
+			 * maxFValue).equals(F.get(ks))) { key = ks; break; } }
+			 */
+			for (Map.Entry<KeyOfMap, Double> entry : F.entrySet()) {
+				if (((Double) maxFValue).equals(entry.getValue())) {
+					key = entry.getKey();
+					break;
+				}
+			}
+
+			// System.out.println(key.first()+":"+key.last());
+			// 从F中删除这个f(Ci,Cj)
+			// F.remove(key);
+			// 从F中删除key中包含Ci,Cj的项
+			// F = removeElements(key, F);
+			/*
+			 * for(Entry<KeyOfMap, Integer> entry : dCount.entrySet()){
+			 * System.out.println("M("+entry.getKey().first()+":"+entry.getKey()
+			 * .last()+")="+entry.getValue()); }
+			 */
+
+			int N = twoDimensionalX.size();
+
+			int M_i_j = dCount.get(key);
+			int psiCi = 0, psiCj = 0;
+
+			ArrayList<Integer> Ci, Cj;
+			Ci = key.first();
+			Cj = key.last();
+
+			psiCi = countIncludeNumber(Ci);
+			psiCj = countIncludeNumber(Cj);
+			int indexOfCi = C.indexOf(Ci);
+
+			if ((psiCi * psiCj) != 0 && Math.max(psiCi, psiCj) != 0 && ((double) (N * M_i_j) / (psiCi * psiCj) > 1)
+					&& ((double) M_i_j / Math.max(psiCi, psiCj) >= beta)) {
+
+				flag = 1;
+
+				// 把Ci,Cj合并到Ci中;
+				if (!Ci.containsAll(Cj)) {
+					Ci.addAll(Cj);
 				}
 
-				//System.out.println(key.first()+":"+key.last());
-				// 从F中删除这个f(Ci,Cj)
-				//F.remove(key);
-				// 从F中删除key中包含Ci,Cj的项
-				//F = removeElements(key, F);
-				/*for(Entry<KeyOfMap, Integer> entry : dCount.entrySet()){  
-				    System.out.println("M("+entry.getKey().first()+":"+entry.getKey().last()+")="+entry.getValue());  
-				} */
+				C.set(indexOfCi, Ci);
+				// 重新整理M(Ci，Cj)
+				C.remove(Cj);
 
-				int N = twoDimensionalX.size();
-				
-				int M_i_j = dCount.get(key);
-				int psiCi = 0, psiCj = 0;
+				n--;
 
-				ArrayList<Integer> Ci, Cj;
-				Ci = key.first();
-				Cj = key.last();
+				// removeElementsOfM(key, dCount);
+				dCount = removeElementsOfM(key, dCount);
 
-				psiCi = countIncludeNumber(Ci);
-				psiCj = countIncludeNumber(Cj);
-				int indexOfCi = C.indexOf(Ci);
+				for (ArrayList<Integer> tempCj : C) {
+					ArrayList<Integer> tempCiCj = new ArrayList<Integer>();
+					tempCiCj.addAll(Ci);
+					tempCiCj.addAll(tempCj);
+					int tempCount = countIncludeNumber(tempCiCj);
 
-				if ((psiCi * psiCj)!=0&&Math.max(psiCi, psiCj)!=0&&((double) (N * M_i_j) / (psiCi * psiCj) > 1) && ((double) M_i_j / Math.max(psiCi, psiCj) >= beta)) {
-
-					flag = 1;
-
-					// 把Ci,Cj合并到Ci中;
-					if (!Ci.containsAll(Cj)) {
-						Ci.addAll(Cj);
-					}
-
-					C.set(indexOfCi, Ci);
-					// 重新整理M(Ci，Cj)
-					C.remove(Cj);
-
-					n--;
-
-					//removeElementsOfM(key, dCount);
-					dCount = removeElementsOfM(key, dCount);
-
-					for (ArrayList<Integer> tempCj : C) {
-						ArrayList<Integer> tempCiCj = new ArrayList<Integer>();
-						tempCiCj.addAll(Ci);
-						tempCiCj.addAll(tempCj);
-						int tempCount = countIncludeNumber(tempCiCj);
-						
-						KeyOfMap newkey = new KeyOfMap(Ci, tempCj);
-						dCount.put(newkey, tempCount);
-					}
-					
-
+					KeyOfMap newkey = new KeyOfMap(Ci, tempCj);
+					dCount.put(newkey, tempCount);
 				}
-			//}
+
+			}
+			// }
 
 			if (flag == 0) {
 				break;
@@ -323,7 +325,7 @@ public class Documents {
 		ArrayList<Integer> secondElement = key.last();
 		Map<KeyOfMap, Integer> currentF = new HashMap<KeyOfMap, Integer>();
 		currentF.putAll(F);
-		
+
 		Set<KeyOfMap> keyset = F.keySet();
 
 		for (KeyOfMap tempKey : keyset) {
@@ -337,12 +339,12 @@ public class Documents {
 		}
 		return currentF;
 	}
-	
-	public double seekMaxValue(Object[] obj){
-		double maxValue=0;
-		for(int i=0;i<obj.length;i++){
-			if((double)obj[i] > maxValue){
-				maxValue = (double)obj[i];
+
+	public double seekMaxValue(Object[] obj) {
+		double maxValue = 0;
+		for (int i = 0; i < obj.length; i++) {
+			if ((double) obj[i] > maxValue) {
+				maxValue = (double) obj[i];
 			}
 		}
 		return maxValue;
