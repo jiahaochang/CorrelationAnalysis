@@ -215,11 +215,11 @@ public class Documents {
 				Arrays.sort(obj);
 				maxFValue = (double)obj[obj.length-1];
 				
-				System.out.println(F.size());
+				/*System.out.println(F.size());
 				
 				for(Map.Entry<KeyOfMap, Double> entry : F.entrySet()){  
 				    System.out.println(entry.getKey().first()+":"+entry.getKey().last()+"="+entry.getValue());  
-				}  
+				}  */
 				
 				// 根据最大value获取对应的key
 				ArrayList<Integer> templist1 = new ArrayList<Integer>();
@@ -239,14 +239,14 @@ public class Documents {
 					}
 				}
 
-				System.out.println(key.first()+":"+key.last());
+				//System.out.println(key.first()+":"+key.last());
 				// 从F中删除这个f(Ci,Cj)
 				//F.remove(key);
 				// 从F中删除key中包含Ci,Cj的项
 				//F = removeElements(key, F);
-				for(Entry<KeyOfMap, Integer> entry : dCount.entrySet()){  
+				/*for(Entry<KeyOfMap, Integer> entry : dCount.entrySet()){  
 				    System.out.println("M("+entry.getKey().first()+":"+entry.getKey().last()+")="+entry.getValue());  
-				} 
+				} */
 
 				int N = twoDimensionalX.size();
 				
