@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -172,7 +173,7 @@ public class Documents {
 		double m = n;
 		Map<KeyOfMap, Double> F = new HashMap<KeyOfMap, Double>();
 		while (n > gamma) {
-
+			F.clear();
 			for (int i = 0; i < n - 1; i++) {
 				for (int j = i + 1; j < n; j++) {
 					// System.out.println(i+" "+j);
@@ -202,7 +203,7 @@ public class Documents {
 			
 			int flag = 0;
 
-			while (!F.isEmpty()) {
+			//while (!F.isEmpty()) {
 
 				// 取出F中的最大value对应的key。思想：先获取value数组进行排序，之后取出最大的值一个key即可
 				Collection<Double> c = F.values();
@@ -210,28 +211,42 @@ public class Documents {
 				
 				double maxFValue = 0;
 				//maxFValue = seekMaxValue(obj);
+				
 				Arrays.sort(obj);
 				maxFValue = (double)obj[obj.length-1];
+				
+				System.out.println(F.size());
+				
+				for(Map.Entry<KeyOfMap, Double> entry : F.entrySet()){  
+				    System.out.println(entry.getKey().first()+":"+entry.getKey().last()+"="+entry.getValue());  
+				}  
 				
 				// 根据最大value获取对应的key
 				ArrayList<Integer> templist1 = new ArrayList<Integer>();
 				ArrayList<Integer> templist2 = new ArrayList<Integer>();
 				KeyOfMap key = new KeyOfMap(templist1, templist1);
-				Set<KeyOfMap> kset = F.keySet();
-				for (KeyOfMap ks : kset) {
+				//Set<KeyOfMap> kset = F.keySet();
+				/*for (KeyOfMap ks : kset) {
 					if (((Double) maxFValue).equals(F.get(ks))) {
 						key = ks;
 						break;
 					}
+				}*/
+				for(Map.Entry<KeyOfMap, Double> entry : F.entrySet()){ 
+					if (((Double) maxFValue).equals(entry.getValue())) {
+						key = entry.getKey();
+						break;
+					}
 				}
 
+				System.out.println(key.first()+":"+key.last());
 				// 从F中删除这个f(Ci,Cj)
-				/*System.out.println("-------------------------------------------------");
-				System.out.println(key.first() + ":" + key.last()+":maxFValue="+maxFValue);
-				System.out.println("-------------------------------------------------");*/
-				F.remove(key);
+				//F.remove(key);
 				// 从F中删除key中包含Ci,Cj的项
-				F = removeElements(key, F);
+				//F = removeElements(key, F);
+				for(Entry<KeyOfMap, Integer> entry : dCount.entrySet()){  
+				    System.out.println("M("+entry.getKey().first()+":"+entry.getKey().last()+")="+entry.getValue());  
+				} 
 
 				int N = twoDimensionalX.size();
 				
@@ -261,7 +276,6 @@ public class Documents {
 
 					n--;
 
-					// dCount.clear();
 					//removeElementsOfM(key, dCount);
 					dCount = removeElementsOfM(key, dCount);
 
@@ -277,7 +291,7 @@ public class Documents {
 					
 
 				}
-			}
+			//}
 
 			if (flag == 0) {
 				break;

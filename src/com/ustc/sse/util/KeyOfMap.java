@@ -27,10 +27,10 @@ public class KeyOfMap {
 	public int hashCode() {
 		int x = 0;
 		for (int i = 0; i < key.first().size(); i++) {
-			x = x + 10 * key.first().get(i);
+			x = x + 100 * key.first().get(i);
 		}
 		for (int i = 0; i < key.last().size(); i++) {
-			x = x + 20 * key.last().get(i);
+			x = x + 200 * key.last().get(i);
 		}
 		return x;
 	}
